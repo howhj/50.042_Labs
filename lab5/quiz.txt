@@ -1,0 +1,19 @@
+1. There is no difference between addition and subtraction operation for all elements of GF(3).
+
+> False. The elements of GF(3) are 0, 1, 2. 1+1=2, while 1-1=0. As such, the results of addition and subtraction may be different.
+
+2. There is no difference between addition and subtraction operation for all elements of GF(2^N), for any integer N.
+
+> False. This only holds true for N>=1, since GF(2^m) where m>=2 are extension fields of GF(2). In polynomial representation, the coefficient of each term has to be in GF(2). As such, the operations between two polynomials of GF(2^m) are the same as those of GF(2). As for N<1, such a group will no longer satisfy the properties of a Galois field, so it is not possible to compare the operations with those of GF(2).
+
+3. For all elements of GF(2), multiplication is equivalent to an AND gate.
+
+> True. The only elements of GF(2) are 0 and 1. As such, the only possible combinations for multiplication are: 0*0=0, 0*1=0, 1*0=0, 1*1=1. These results are the same as an AND gate truth table, where 0 is equivalent to false and 1 is equivalent to true.
+
+4. A polynomial of degree 8 is a possible element of the field GF(2^8).
+
+> False. Any element a of GF(2^8) is in the form a mod 2^8, or in polynomial representation, a mod x^8. As such, any polynomial with an x^8 term will be reduced, and the largest possible number in GF(2^8) would have a degree 7 only.
+
+5. P(x) = x^4 + x^3 + x + 1 is a irreducible polynomial.
+
+> False. P(x) can be factored into (x^3+1)(x+1), so it is reducible.

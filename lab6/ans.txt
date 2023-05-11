@@ -1,0 +1,71 @@
+Q1: How could we perform the exchange of keys in the real world? Do we need a secure channel? Why or why not?
+
+Using DHKE, a secure channel isn't needed, since the public keys are only used for the key exchange, and not for communication of any secret information (including the private keys). As such, it is difficult for an adversary to derive a shared key from the public keys exchanged.
+
+Because of this, there are many ways to perform a key exchange in the real world if one uses DHKE. This can range from physically meeting up to exchange keys, or broadcasting the public keys on the internet.
+
+===============================================
+
+Q2: What is an advantage and a disadvantage of DHKE?
+
+Advantage: It is decentralised. It does not require a central server to assign shared keys, so there is no single point of failure.
+
+Disadvantage: Since there exist algorithms that can guess the shared key, keys must be regularly exchanged to generate new shared keys. If this is not done, an attacker will eventually be able to acquire the shared key and compromise the communication between both parties.
+
+===============================================
+
+Q3: To avoid attack using Baby-Step Giant-Steps method, how many bits would you set the key be in DHKE protocol? How did you decide on this number?
+
+Baby-Step Giant-Step takes considerable time and storage space. Let x be the number of bits of the key.
+
+
+TIME COMPLEXITY
+
+For time complexity,
+- square_multiply takes O(x) time
+- baby_step take O(m) time
+- giant_step calls square_multiply, so it takes O(mx) time
+- baby_giant calls baby_step and giant_step, then loops m^2 times, so it takes O(mx + m^2)
+
+m = ceil(sqrt(p-1)) = O(sqrt(p))
+
+And since p <= 2^x, m = O(sqrt(2^x))
+
+Thus, overall time complexity of baby_giant is O(2^x).
+
+
+SPACE COMPLEXITY
+
+For space complexity, we need to store 2m numbers. However, each of the 2m numbers can also take up to x bits, so we need O(2m * x) bits in total.
+
+The space complexity is thus O(x * sqrt(2^x)).
+
+
+TESTING
+
+To verify the calculated time and space complexities, I did 3 additional test cases, with keys of 17, 20 and 32 bits respectively. Using 16 bits as the baseline,
+
+16 bits: Time = 0.0036123 sec, Space = 1432 bytes
+
+17 bits: Time = 0.0075026 sec (2.0770x), Space = 3891.2 bytes (2.7173x)
+
+20 bits: Time = 0.42676 sec (118.14x), Space = 14131 bytes (9.8682x)
+
+32 bits: Time = 997.54 sec (276130x), Space = 1407900 bytes (983.17x)
+
+(Multipliers in parantheses represent how many times greater compared to the 16 bit key)
+
+The results seem to corroborate the calculated time and space complexities. Time taken increases by a much faster rate than space used. As such, let us focus on the cost of time instead of space, since the time taken will become a limiting factor much more quickly.
+
+
+ANALYSIS
+
+For simplicity, let's assume time taken increases linearly at 276130 times over base whenever the length of the key is doubled. With a 64 bit key, we would require 276 million seconds, or over 524 years to guess the shared key with this algorithm.
+
+However, if the adversary is sophisticated enough to have access to supercomputers, the time taken can be drastically reduced through parallelisation (since the time complexity assumes the use of a uniprocessor).
+
+To complicate matters further, how secure the keys are also depend on how often keys are exchanged. If keys are only used for short periods of time (e.g. for 24 hours), it is infeasible for even a very sophisticated adversary to guess the shared key.
+
+And this is under the assumption that time taken increases linearly, when in reality, it increases exponentially, which makes it even more infeasible for an adversary to guess the key.
+
+Hence, in terms of time cost, a 64 bit key is sufficient, especially if keys are exchanged regularly at short intervals. However, longer keys would be even more secure, and ultimately, the length of the key that should be used depends on one's security practices and one's threat model.

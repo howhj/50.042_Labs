@@ -1,0 +1,3 @@
+Explain one limitation of RSA protocol attacks.
+
+It relies on the fact that RSA on its own is deterministic. However, if the secret is padded (such as with OAEP), the attacks will no longer work.
